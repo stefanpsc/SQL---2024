@@ -1,0 +1,856 @@
+CREATE TABLE NAVIGATORI(
+Id_Navigator INT PRIMARY KEY,
+Prenume_Navigator VARCHAR(20),
+Nume_Navigator VARCHAR(20),
+Telefon_Navigator VARCHAR(20),
+Email_Navigator VARCHAR(40),
+Sex_Navigator VARCHAR(20),
+Stare_Civila VARCHAR(20),
+Data_Nasterii Date
+);
+CREATE TABLE ATESTATE(
+Id_Atestat INT PRIMARY KEY,
+Nume_Atestat VARCHAR(35),
+Data_Emitere DATE,
+Data_Expirare DATE,
+Locatie VARCHAR(40)
+);
+
+CREATE TABLE FUNCTIE_NAVIGATOR(
+Id_Functie INT PRIMARY KEY,
+Denumire_Functie VARCHAR(40),
+Salariu_Min NUMBER(6),
+Salariu_Max NUMBER(6)
+);
+
+CREATE TABLE CERTIFICATE(
+Id_Cetificat INT PRIMARY KEY,
+Denumire_Certificat VARCHAR(40),
+Data_Emitere DATE,
+Data_Expirare DATE,
+Locatie VARCHAR(40)
+);
+
+CREATE TABLE CERTIFICATE_VACCIN(
+Id_Cetificat INT PRIMARY KEY,
+Denumire_Certificat VARCHAR(40),
+Data_Vaccinare DATE,
+Data_Expirare DATE,
+Locatie VARCHAR(40),
+Nr_Vaccin Number(10)
+);
+
+CREATE TABLE VIZA_STATE(
+Tip_Viza INT PRIMARY KEY,
+Nr_Viza NUMBER(30),
+Data_Emitere DATE,
+Data_Expirare DATE,
+Locatie VARCHAR(40)
+);
+
+CREATE TABLE PASAPORT(
+Nr_pasaport INT PRIMARY KEY,
+Data_Emitere DATE,
+Data_Expirare DATE,
+Locatie VARCHAR(40)
+);
+
+CREATE TABLE CARNET_MARINAR(
+Nr_Carnet INT PRIMARY KEY,
+Data_Emitere DATE,
+Data_Expirare DATE,
+Locatie VARCHAR(40)
+);
+
+ALTER TABLE ATESTATE
+ADD Id_Navigator INT;
+
+ALTER TABLE ATESTATE
+ADD CONSTRAINT fk_navigator_id
+FOREIGN KEY (Id_Navigator)
+REFERENCES NAVIGATORI(Id_Navigator);
+
+
+ALTER TABLE CARNET_MARINAR
+ADD Id_Navigator INT;
+
+
+ALTER TABLE CARNET_MARINAR
+ADD CONSTRAINT fk_navigator_id_cm
+FOREIGN KEY (Id_Navigator)
+REFERENCES NAVIGATORI(Id_Navigator);
+
+
+ALTER TABLE PASAPORT
+ADD Id_Navigator INT;
+
+
+ALTER TABLE PASAPORT
+ADD CONSTRAINT fk_navigator_id_pas
+FOREIGN KEY (Id_Navigator)
+REFERENCES NAVIGATORI(Id_Navigator);
+
+
+ALTER TABLE VIZA_STATE
+ADD Id_Navigator INT;
+
+
+ALTER TABLE VIZA_STATE
+ADD CONSTRAINT fk_navigator_id_vs
+FOREIGN KEY (Id_Navigator)
+REFERENCES NAVIGATORI(Id_Navigator);
+
+
+ALTER TABLE CERTIFICATE_VACCIN
+ADD Id_Navigator INT;
+
+
+ALTER TABLE CERTIFICATE_VACCIN
+ADD CONSTRAINT fk_navigator_id_cv
+FOREIGN KEY (Id_Navigator)
+REFERENCES NAVIGATORI(Id_Navigator);
+
+
+ALTER TABLE CERTIFICATE
+ADD Id_Navigator INT;
+
+
+ALTER TABLE CERTIFICATE
+ADD CONSTRAINT fk_navigator_id_crt
+FOREIGN KEY (Id_Navigator)
+REFERENCES NAVIGATORI(Id_Navigator);
+
+CREATE TABLE ISTORIC_FUNCTII_NAVIGATORI (
+    Id_Istoric INT PRIMARY KEY,
+    Id_Navigator INT,
+    Data_Inceput DATE,
+    Data_Sfarsit DATE,
+    CONSTRAINT fk_navigator_id_if FOREIGN KEY (Id_Navigator) REFERENCES NAVIGATORI(Id_Navigator)
+);
+
+
+ALTER TABLE FUNCTIE_NAVIGATOR
+ADD Id_Navigator INT;
+
+
+ALTER TABLE FUNCTIE_NAVIGATOR
+ADD CONSTRAINT fk_navigator_id_fn
+FOREIGN KEY (Id_Navigator)
+REFERENCES NAVIGATORI(Id_Navigator);
+
+ALTER TABLE ISTORIC_FUNCTII_NAVIGATORI
+ADD Id_Functie INT;
+
+ALTER TABLE ISTORIC_FUNCTII_NAVIGATORI
+ADD CONSTRAINT fk_functie_id_if FOREIGN KEY (Id_Functie) REFERENCES FUNCTIE_NAVIGATOR(Id_Functie);
+------------------
+INSERT INTO CARNET_MARINAR(Nr_Carnet, Data_Emitere, Data_Expirare, Locatie)
+VALUES('1', TO_DATE('2000-12-10', 'YYYY-MM-DD'), TO_DATE('2004-12-10', 'YYYY-MM-DD'), 'CONSTANTA');
+
+INSERT INTO PASAPORT(Nr_pasaport, Data_Emitere, Data_Expirare, Locatie)
+VALUES('1', TO_DATE('2000-12-10', 'YYYY-MM-DD'), TO_DATE('2004-12-10', 'YYYY-MM-DD'), 'CONSTANTA');
+
+INSERT INTO VIZA_STATE(Tip_Viza, Nr_Viza, Data_Emitere, Data_Expirare, Locatie)
+VALUES('1','20', TO_DATE('2000-12-10', 'YYYY-MM-DD'), TO_DATE('2004-12-10', 'YYYY-MM-DD'), 'CONSTANTA');
+
+INSERT INTO CERTIFICATE_VACCIN(Id_Cetificat,Denumire_Certificat,Data_Vaccinare, Data_Expirare, Locatie, Nr_Vaccin)
+VALUES('1','AFF', TO_DATE('2000-12-10', 'YYYY-MM-DD'), TO_DATE('2004-12-10', 'YYYY-MM-DD'), 'CONSTANTA','2');
+
+INSERT INTO CERTIFICATE(Id_Cetificat,Denumire_Certificat,Data_Emitere, Data_Expirare, Locatie)
+VALUES('1','COVID', TO_DATE('2000-12-10', 'YYYY-MM-DD'), TO_DATE('2004-12-10', 'YYYY-MM-DD'), 'CONSTANTA');
+
+INSERT INTO FUNCTIE_NAVIGATOR(Id_Functie,Denumire_Functie,Salariu_Min,Salariu_Max)
+VALUES('1','SEF MECANIC','13000','16000');
+
+INSERT INTO ATESTATE(Id_Atestat,Nume_Atestat,Data_Emitere,Data_Expirare, Locatie)
+VALUES('1','TANCURI', TO_DATE('2000-12-10', 'YYYY-MM-DD'), TO_DATE('2004-12-10', 'YYYY-MM-DD'), 'CONSTANTA');
+
+INSERT INTO NAVIGATORI(Id_Navigator, Prenume_Navigator, Nume_Navigator, Telefon_Navigator, Email_Navigator ,Sex_Navigator, Stare_Civila, Data_Nasterii)
+VALUES('1','Ovidiu','Sagau','0711111111','ovidiu.sagau@yahoo.com','Masculin','Casatorit',TO_DATE('1976-10-15', 'YYYY-MM-DD'));
+----------------------
+
+INSERT INTO CARNET_MARINAR(Nr_Carnet, Data_Emitere, Data_Expirare, Locatie)
+VALUES('2', TO_DATE('2016-02-17', 'YYYY-MM-DD'), TO_DATE('2027-04-28', 'YYYY-MM-DD'), 'CONSTANTA');
+
+INSERT INTO PASAPORT(Nr_pasaport, Data_Emitere, Data_Expirare, Locatie)
+VALUES('2', TO_DATE('2019-04-08', 'YYYY-MM-DD'), TO_DATE('2029-04-19', 'YYYY-MM-DD'), 'CONSTANTA');
+
+INSERT INTO VIZA_STATE(Tip_Viza, Nr_Viza, Data_Emitere, Data_Expirare, Locatie)
+VALUES('2','6430677', TO_DATE('2019-12-17', 'YYYY-MM-DD'), TO_DATE('2024-12-12', 'YYYY-MM-DD'), 'CONSTANTA');
+
+INSERT INTO CERTIFICATE_VACCIN(Id_Cetificat,Denumire_Certificat,Data_Vaccinare, Data_Expirare, Locatie, Nr_Vaccin)
+VALUES('2','COVID', TO_DATE('2020-08-09', 'YYYY-MM-DD'), TO_DATE('2030-11-09', 'YYYY-MM-DD'), 'CONSTANTA','2');
+
+INSERT INTO CERTIFICATE(Id_Cetificat,Denumire_Certificat,Data_Emitere, Data_Expirare, Locatie)
+VALUES('2','PSCRB', TO_DATE('2023-05-12', 'YYYY-MM-DD'), TO_DATE('2028-05-11', 'YYYY-MM-DD'), 'CONSTANTA');
+
+INSERT INTO FUNCTIE_NAVIGATOR(Id_Functie,Denumire_Functie,Salariu_Min,Salariu_Max)
+VALUES('2','CHIEF OFFICER','9000','13000');
+
+INSERT INTO ATESTATE(Id_Atestat,Nume_Atestat,Data_Emitere,Data_Expirare, Locatie)
+VALUES('2','Advanced Tanker Training (Chem)', TO_DATE('2019-12-17', 'YYYY-MM-DD'), TO_DATE('2024-12-16', 'YYYY-MM-DD'), 'CONSTANTA');
+
+INSERT INTO NAVIGATORI(Id_Navigator, Prenume_Navigator, Nume_Navigator, Telefon_Navigator, Email_Navigator ,Sex_Navigator, Stare_Civila, Data_Nasterii)
+VALUES('2','Petre','Maximilian','0721063335','petre_maximilian@yahoo.com','Masculin','Casatorit',TO_DATE('1972-12-06', 'YYYY-MM-DD'));
+-----------------------------
+INSERT INTO CARNET_MARINAR(Nr_Carnet, Data_Emitere, Data_Expirare, Locatie)
+VALUES('3', TO_DATE('2018-03-18', 'YYYY-MM-DD'), TO_DATE('2028-03-18', 'YYYY-MM-DD'), 'CONSTANTA');
+
+INSERT INTO PASAPORT(Nr_pasaport, Data_Emitere, Data_Expirare, Locatie)
+VALUES('3', TO_DATE('2021-01-09', 'YYYY-MM-DD'), TO_DATE('2031-01-09', 'YYYY-MM-DD'), 'CONSTANTA');
+
+INSERT INTO VIZA_STATE(Tip_Viza, Nr_Viza, Data_Emitere, Data_Expirare, Locatie)
+VALUES('3','48010', TO_DATE('2019-02-27', 'YYYY-MM-DD'), TO_DATE('2025-11-02', 'YYYY-MM-DD'), 'CONSTANTA');
+
+INSERT INTO CERTIFICATE_VACCIN(Id_Cetificat,Denumire_Certificat,Data_Vaccinare, Data_Expirare, Locatie, Nr_Vaccin)
+VALUES('3','COVID', TO_DATE('2020-01-04', 'YYYY-MM-DD'), TO_DATE('2030-01-04', 'YYYY-MM-DD'), 'CONSTANTA','2');
+
+INSERT INTO CERTIFICATE(Id_Cetificat,Denumire_Certificat,Data_Emitere, Data_Expirare, Locatie)
+VALUES('3','BST', TO_DATE('2021-03-02', 'YYYY-MM-DD'), TO_DATE('2028-05-11', 'YYYY-MM-DD'), 'CONSTANTA');
+
+INSERT INTO FUNCTIE_NAVIGATOR(Id_Functie,Denumire_Functie,Salariu_Min,Salariu_Max)
+VALUES('3','CHIEF ENGINEER','12000','17000');
+
+INSERT INTO ATESTATE(Id_Atestat,Nume_Atestat,Data_Emitere,Data_Expirare, Locatie)
+VALUES('3','Advanced Tanker Training (Chem)', TO_DATE('2023-10-17', 'YYYY-MM-DD'), TO_DATE('2033-12-16', 'YYYY-MM-DD'), 'CONSTANTA');
+
+INSERT INTO NAVIGATORI(Id_Navigator, Prenume_Navigator, Nume_Navigator, Telefon_Navigator, Email_Navigator ,Sex_Navigator, Stare_Civila, Data_Nasterii)
+VALUES('3','Pirvu','Ionut','0769233418','pirvu_ionut@yahoo.com','Masculin','Casatorit',TO_DATE('1982-10-05', 'YYYY-MM-DD'));
+-----------------------------
+INSERT INTO CARNET_MARINAR(Nr_Carnet, Data_Emitere, Data_Expirare, Locatie)
+VALUES('4', TO_DATE('2009-01-18', 'YYYY-MM-DD'), TO_DATE('2035-03-18', 'YYYY-MM-DD'), 'CONSTANTA');
+
+INSERT INTO PASAPORT(Nr_pasaport, Data_Emitere, Data_Expirare, Locatie)
+VALUES('4', TO_DATE('2023-05-09', 'YYYY-MM-DD'), TO_DATE('2033-05-09', 'YYYY-MM-DD'), 'CONSTANTA');
+
+INSERT INTO VIZA_STATE(Tip_Viza, Nr_Viza, Data_Emitere, Data_Expirare, Locatie)
+VALUES('4','38413', TO_DATE('2011-02-27', 'YYYY-MM-DD'), TO_DATE('2025-11-02', 'YYYY-MM-DD'), 'CONSTANTA');
+
+INSERT INTO CERTIFICATE_VACCIN(Id_Cetificat,Denumire_Certificat,Data_Vaccinare, Data_Expirare, Locatie, Nr_Vaccin)
+VALUES('4','COVID', TO_DATE('2022-04-07', 'YYYY-MM-DD'), TO_DATE('2032-04-07', 'YYYY-MM-DD'), 'CONSTANTA','3');
+
+INSERT INTO CERTIFICATE(Id_Cetificat,Denumire_Certificat,Data_Emitere, Data_Expirare, Locatie)
+VALUES('4','BST', TO_DATE('2019-04-09', 'YYYY-MM-DD'), TO_DATE('2029-01-12', 'YYYY-MM-DD'), 'CONSTANTA');
+
+INSERT INTO FUNCTIE_NAVIGATOR(Id_Functie,Denumire_Functie,Salariu_Min,Salariu_Max)
+VALUES('4','SECOND ENGINEER','10000','12050');
+
+INSERT INTO ATESTATE(Id_Atestat,Nume_Atestat,Data_Emitere,Data_Expirare, Locatie)
+VALUES('4','Advanced Tanker Training (Chem)', TO_DATE('2023-10-11', 'YYYY-MM-DD'), TO_DATE('2033-10-10', 'YYYY-MM-DD'), 'CONSTANTA');
+
+INSERT INTO NAVIGATORI(Id_Navigator, Prenume_Navigator, Nume_Navigator, Telefon_Navigator, Email_Navigator ,Sex_Navigator, Stare_Civila, Data_Nasterii)
+VALUES('4','Valeanu','Eduard','0729183135','valeanu.edy@yahoo.com','Masculin','Necasatorit',TO_DATE('1990-08-12', 'YYYY-MM-DD'));
+-----------------------------
+INSERT INTO CARNET_MARINAR(Nr_Carnet, Data_Emitere, Data_Expirare, Locatie)
+VALUES('5', TO_DATE('2012-01-18', 'YYYY-MM-DD'), TO_DATE('2032-03-18', 'YYYY-MM-DD'), 'CONSTANTA');
+
+INSERT INTO PASAPORT(Nr_pasaport, Data_Emitere, Data_Expirare, Locatie)
+VALUES('5', TO_DATE('2013-01-03', 'YYYY-MM-DD'), TO_DATE('2033-04-19', 'YYYY-MM-DD'), 'CONSTANTA');
+
+INSERT INTO VIZA_STATE(Tip_Viza, Nr_Viza, Data_Emitere, Data_Expirare, Locatie)
+VALUES('5','38413', TO_DATE('2011-02-27', 'YYYY-MM-DD'), TO_DATE('2032-06-01', 'YYYY-MM-DD'), 'CONSTANTA');
+
+INSERT INTO CERTIFICATE_VACCIN(Id_Cetificat,Denumire_Certificat,Data_Vaccinare, Data_Expirare, Locatie, Nr_Vaccin)
+VALUES('5','COVID', TO_DATE('2020-02-07', 'YYYY-MM-DD'), TO_DATE('2030-02-07', 'YYYY-MM-DD'), 'CONSTANTA','3');
+
+INSERT INTO CERTIFICATE(Id_Cetificat,Denumire_Certificat,Data_Emitere, Data_Expirare, Locatie)
+VALUES('5','BST', TO_DATE('2010-04-10', 'YYYY-MM-DD'), TO_DATE('2029-03-12', 'YYYY-MM-DD'), 'CONSTANTA');
+
+INSERT INTO FUNCTIE_NAVIGATOR(Id_Functie,Denumire_Functie,Salariu_Min,Salariu_Max)
+VALUES('5','MASTER','12000','17000');
+
+INSERT INTO ATESTATE(Id_Atestat,Nume_Atestat,Data_Emitere,Data_Expirare, Locatie)
+VALUES('5','Basic Tanker Training (Oil)', TO_DATE('2021-04-12', 'YYYY-MM-DD'), TO_DATE('2031-04-20', 'YYYY-MM-DD'), 'CONSTANTA');
+
+INSERT INTO NAVIGATORI(Id_Navigator, Prenume_Navigator, Nume_Navigator, Telefon_Navigator, Email_Navigator ,Sex_Navigator, Stare_Civila, Data_Nasterii)
+VALUES('5','Cristi','Popescu','0721184125','cristi.popescu@yahoo.com','Masculin','Casatorit',TO_DATE('1989-04-11', 'YYYY-MM-DD'));
+-----------------------------
+
+SELECT * FROM NAVIGATORI WHERE Id_Navigator = '2';
+
+SELECT * FROM CARNET_MARINAR WHERE Nr_Carnet = '2';
+
+SELECT * FROM VIZA_STATE WHERE Tip_Viza = '2';
+
+---------------------------------
+
+UPDATE NAVIGATORI
+SET Telefon_Navigator = '0733222111'
+WHERE Id_Navigator = '1';
+
+UPDATE FUNCTIE_NAVIGATOR
+SET Salariu_Min = '15000', Salariu_Max = '18000'
+WHERE Id_Functie = '1';
+
+UPDATE VIZA_STATE
+SET Data_Expirare = TO_DATE('2025-12-31', 'YYYY-MM-DD')
+WHERE Tip_Viza = '2';
+
+UPDATE CERTIFICATE
+SET Data_Emitere = TO_DATE('2023-01-01', 'YYYY-MM-DD'), Data_Expirare = TO_DATE('2028-01-01', 'YYYY-MM-DD')
+WHERE Id_Cetificat = '1';
+
+DELETE FROM CERTIFICATE
+WHERE Data_Expirare < SYSDATE;
+
+-------------------------------------
+------------4
+------Obținerea detaliilor despre navigatori și funcțiile lor:
+SELECT NAVIGATORI.Prenume_Navigator, 19NAVIGATORI.Nume_Navigator, FUNCTIE_NAVIGATOR.Denumire_Functie
+FROM NAVIGATORI
+INNER JOIN FUNCTIE_NAVIGATOR ON NAVIGATORI.Id_Navigator = FUNCTIE_NAVIGATOR.Id_Functie;
+
+---Listarea tuturor navigatorilor și certificatelor lor (inclusiv cei fără certificat):
+
+SELECT NAVIGATORI.Prenume_Navigator, NAVIGATORI.Nume_Navigator, CERTIFICATE.Denumire_Certificat
+FROM NAVIGATORI
+LEFT JOIN CERTIFICATE ON NAVIGATORI.Id_Navigator = CERTIFICATE.Id_Cetificat;
+
+-----Calcularea vârstei navigatorilor în funcție de data nașterii:
+SELECT Prenume_Navigator, Nume_Navigator, ROUND(MONTHS_BETWEEN(SYSDATE, Data_Nasterii) / 12) AS Varsta
+FROM NAVIGATORI;
+
+-----Listarea tuturor navigatorilor cu viza valabilă:
+
+SELECT Prenume_Navigator, Nume_Navigator
+FROM NAVIGATORI
+WHERE Id_Navigator IN (
+    SELECT Id_Navigator
+    FROM VIZA_STATE
+    WHERE Data_Expirare > SYSDATE
+);
+
+-----Calcularea salariului minim și maxim al tuturor funcțiilor navigatorilor:
+
+SELECT Denumire_Functie, MIN(Salariu_Min) AS Salariu_Minim, MAX(Salariu_Max) AS Salariu_Maxim
+FROM FUNCTIE_NAVIGATOR
+GROUP BY Denumire_Functie;
+
+-------5
+
+---Calcularea numărului total de navigatori pe fiecare stare civilă:
+SELECT Stare_Civila, COUNT(*) AS Numar_Navigatori
+FROM NAVIGATORI
+GROUP BY Stare_Civila;
+
+---Determinarea vârstei medii a navigatorilor pe fiecare funcție:
+
+SELECT FUNCTIE_NAVIGATOR.Denumire_Functie, ROUND(AVG(MONTHS_BETWEEN(SYSDATE, NAVIGATORI.Data_Nasterii) / 12)) AS Varsta_Medie
+FROM NAVIGATORI
+INNER JOIN FUNCTIE_NAVIGATOR ON NAVIGATORI.Id_Navigator = FUNCTIE_NAVIGATOR.Id_Functie
+GROUP BY FUNCTIE_NAVIGATOR.Denumire_Functie;
+
+----Calcularea sumei salariilor minime și maxime pentru navigatori cu vize valabile:
+
+SELECT SUM(FUNCTIE_NAVIGATOR.Salariu_Min) AS Salariu_Minim_Total, SUM(FUNCTIE_NAVIGATOR.Salariu_Max) AS Salariu_Maxim_Total
+FROM NAVIGATORI
+INNER JOIN FUNCTIE_NAVIGATOR ON NAVIGATORI.Id_Navigator = FUNCTIE_NAVIGATOR.Id_Functie
+INNER JOIN VIZA_STATE ON NAVIGATORI.Id_Navigator = VIZA_STATE.Tip_Viza
+WHERE VIZA_STATE.Data_Expirare > SYSDATE;
+
+
+----Listarea locațiilor și numărul total de vize emise pentru fiecare locație:
+
+SELECT Locatie, COUNT(*) AS Numar_Vize
+FROM VIZA_STATE
+GROUP BY Locatie;
+
+----Joncțiunea dintre NAVIGATORI și CERTIFICATE pentru a obține numărul de certificate pe fiecare stare civilă:
+
+SELECT NAVIGATORI.Stare_Civila, COUNT(CERTIFICATE.Id_Cetificat) AS Numar_Certificate
+FROM NAVIGATORI
+LEFT JOIN CERTIFICATE ON NAVIGATORI.Id_Navigator = CERTIFICATE.Id_Cetificat
+GROUP BY NAVIGATORI.Stare_Civila;
+
+-----Funcții Numerice și de Tip Caracter
+-----Calcularea vârstei medii și afișarea acestora pentru fiecare funcție navigator:
+
+SELECT FUNCTIE_NAVIGATOR.Denumire_Functie, ROUND(AVG(EXTRACT(YEAR FROM SYSDATE) - EXTRACT(YEAR FROM NAVIGATORI.Data_Nasterii))) AS Varsta_Medie
+FROM NAVIGATORI
+INNER JOIN FUNCTIE_NAVIGATOR ON NAVIGATORI.Id_Navigator = FUNCTIE_NAVIGATOR.Id_Functie
+GROUP BY FUNCTIE_NAVIGATOR.Denumire_Functie;
+
+-----Expresii cu DECODE și CASE
+
+SELECT Prenume_Navigator, Nume_Navigator, 
+    DECODE(Sex_Navigator, 'Masculin', 'MASCULIN', 'Feminin', 'FEMININ', 'ALTELE') AS Sex
+FROM NAVIGATORI;
+
+---Inner Join: Returnează rânduri care au corespondențe în ambele tabele.
+
+SELECT NAVIGATORI.Nume_Navigator, FUNCTIE_NAVIGATOR.Denumire_Functie
+FROM NAVIGATORI
+INNER JOIN FUNCTIE_NAVIGATOR ON NAVIGATORI.Id_Navigator = FUNCTIE_NAVIGATOR.Id_Functie;
+
+---Calcularea Vârstei Medii:
+
+SELECT AVG(EXTRACT(YEAR FROM SYSDATE) - EXTRACT(YEAR FROM NAVIGATORI.Data_Nasterii)) AS Varsta_Medie
+FROM NAVIGATORI;
+
+---Funcție Caracter pentru a Formata Datele într-un format specific:
+
+
+SELECT TO_CHAR(Data_Nasterii, 'DD-MON-YYYY') AS Data_Nasterii_Format
+FROM NAVIGATORI;
+
+
+
+----Implementarea interogărilor (SELECT): subcereri, prelucrarea cererilor ierarhice
+----Subcerere pentru a Obține Detalii Specifice:
+
+SELECT Id_Navigator, Nume_Navigator
+FROM NAVIGATORI
+WHERE Id_Navigator IN (
+    SELECT Id_Functie
+    FROM FUNCTIE_NAVIGATOR
+    WHERE Salariu_Max > 15000
+);
+
+
+
+SET SERVEROUTPUT ON 
+
+DECLARE
+    v_salary NUMBER(6);
+BEGIN
+    SELECT Salariu_Min INTO v_salary FROM FUNCTIE_NAVIGATOR WHERE Denumire_Functie = 'MASTER';
+
+    IF v_salary > 10000 THEN
+        DBMS_OUTPUT.PUT_LINE('Salariul minim pentru MASTER este mai mare de 10000.');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Salariul minim pentru MASTER este mai mic sau egal cu 10000.');
+    END IF;
+END;
+/ 
+
+---
+
+DECLARE
+    v_nume_atestat ATESTATE.Nume_Atestat%TYPE;
+BEGIN
+    FOR atestat_rec IN (SELECT * FROM ATESTATE) LOOP
+        v_nume_atestat := atestat_rec.Nume_Atestat;
+        DBMS_OUTPUT.PUT_LINE('Numele atestatului: ' || v_nume_atestat);
+    END LOOP;
+END;
+/
+ 
+---
+
+DECLARE
+    CURSOR nav_cursor IS SELECT * FROM NAVIGATORI;
+    nav_rec NAVIGATORI%ROWTYPE;
+BEGIN
+    OPEN nav_cursor;
+    LOOP
+        FETCH nav_cursor INTO nav_rec;
+        EXIT WHEN nav_cursor%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('Navigator: ' || nav_rec.Prenume_Navigator || ' ' || nav_rec.Nume_Navigator);
+    END LOOP;
+    CLOSE nav_cursor;
+END;
+/
+ 
+---
+
+DECLARE
+    v_max_salary NUMBER(6);
+BEGIN
+    SELECT MAX(Salariu_Max) INTO v_max_salary FROM FUNCTIE_NAVIGATOR;
+    
+    DBMS_OUTPUT.PUT_LINE('Salariul maxim din FUNCTIE_NAVIGATOR este: ' || v_max_salary); -- Mesaj de debug
+
+    IF v_max_salary > 15000 THEN
+        DBMS_OUTPUT.PUT_LINE('Exista navigatori cu salariu maxim mai mare de 15000:');
+        FOR nav_rec IN (SELECT * FROM NAVIGATORI WHERE Id_Navigator IN (SELECT Id_Navigator FROM FUNCTIE_NAVIGATOR WHERE Salariu_Max > 15000)) LOOP
+            DBMS_OUTPUT.PUT_LINE('Navigatorul cu ID ' || nav_rec.Id_Navigator || ' are un salariu maxim mai mare de 15000.');
+        END LOOP;
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Nu exista navigatori cu un salariu maxim mai mare de 15000.');
+    END IF;
+END;
+/
+ 
+---
+
+DECLARE
+    v_count NUMBER;
+BEGIN
+    FOR cert_rec IN (SELECT COUNT(*) AS total_certificates FROM CERTIFICATE) LOOP
+        v_count := cert_rec.total_certificates;
+    END LOOP;
+
+    IF v_count > 0 THEN
+        DBMS_OUTPUT.PUT_LINE('Exista ' || v_count || ' certificate înregistrate în sistem.');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Nu exista certificate înregistrate în sistem.');
+    END IF;
+END;
+/ 
+
+
+DECLARE
+    v_id INT := 1; -- ID-ul navigatorului existent
+BEGIN
+    INSERT INTO NAVIGATORI(Id_Navigator, Prenume_Navigator, Nume_Navigator, Telefon_Navigator, Email_Navigator, Sex_Navigator, Stare_Civila, Data_Nasterii)
+    VALUES(v_id, 'Ionica', 'Viorel', '123456789', 'ionica.vio@boss.com', 'Masculin', 'Necasatorit', TO_DATE('1990-01-01', 'YYYY-MM-DD'));
+EXCEPTION
+    WHEN DUP_VAL_ON_INDEX THEN
+        DBMS_OUTPUT.PUT_LINE('ID-ul navigatorului exista deja în tabel.');
+END;
+/ 
+--
+
+DECLARE
+    v_id INT := 100; -- ID-ul navigatorului inexistent
+    v_nume_navigator NAVIGATORI.Nume_Navigator%TYPE;
+BEGIN
+    SELECT Nume_Navigator INTO v_nume_navigator FROM NAVIGATORI WHERE Id_Navigator = v_id;
+    
+    -- Dacă selectul nu returnează nicio înregistrare, atunci nu există navigator cu ID-ul specificat
+    DBMS_OUTPUT.PUT_LINE('Navigatorul ' || v_nume_navigator || ' a fost găsit.');
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Nu exista navigatorul cu ID-ul specificat.');
+END;
+/ 
+
+--
+
+DECLARE
+    v_id INT := 1; -- ID-ul navigatorului
+    v_stare_civila VARCHAR(20) := 'Celibatar'; -- Stare civilă nevalidă
+BEGIN
+    IF v_stare_civila NOT IN ('Casatorit', 'Singur', 'Divortat') THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Starea civila specificata nu este validă.');
+    END IF;
+    
+    UPDATE NAVIGATORI SET Stare_Civila = v_stare_civila WHERE Id_Navigator = v_id;
+    
+    DBMS_OUTPUT.PUT_LINE('Starea civila a fost actualizata cu succes.');
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('A aparut o eroare în timpul actualizarii starii civile.');
+END;
+/ 
+
+--
+
+DECLARE
+    v_id INT := 100; -- ID-ul navigatorului
+    v_telefon NAVIGATORI.Telefon_Navigator%TYPE; -- Variabilă pentru a stoca telefonul navigatorului
+BEGIN
+    SELECT Telefon_Navigator INTO v_telefon FROM NAVIGATORI WHERE Id_Navigator = v_id;
+
+    -- Verificăm dacă numărul de telefon este nul
+    IF v_telefon IS NULL THEN
+        DBMS_OUTPUT.PUT_LINE('Navigatorul nu are un numar de telefon înregistrat.');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Numarul de telefon al navigatorului este: ' || v_telefon);
+    END IF;
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Nu exista navigator cu ID-ul specificat.');
+END;
+/ 
+
+
+Set serveroutput on;
+
+CREATE OR REPLACE PROCEDURE afiseaza_detalii_navigator(
+    p_id IN NAVIGATORI.Id_Navigator%TYPE
+) AS
+    v_nume NAVIGATORI.Nume_Navigator%TYPE;
+    v_prenume NAVIGATORI.Prenume_Navigator%TYPE;
+    v_telefon NAVIGATORI.Telefon_Navigator%TYPE;
+BEGIN
+    SELECT Nume_Navigator, Prenume_Navigator, Telefon_Navigator
+    INTO v_nume, v_prenume, v_telefon
+    FROM NAVIGATORI
+    WHERE Id_Navigator = p_id;
+
+    DBMS_OUTPUT.PUT_LINE('Detalii navigator:');
+    DBMS_OUTPUT.PUT_LINE('Nume: ' || v_nume);
+    DBMS_OUTPUT.PUT_LINE('Prenume: ' || v_prenume);
+    DBMS_OUTPUT.PUT_LINE('Telefon: ' || v_telefon);
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Navigatorul cu ID-ul ' || p_id || ' nu există în baza de date.');
+END afiseaza_detalii_navigator;
+/
+
+begin 
+afiseaza_detalii_navigator(1);
+end;
+ 
+CREATE OR REPLACE PROCEDURE actualizeaza_telefon_navigator(
+    p_id IN NAVIGATORI.Id_Navigator%TYPE,
+    p_telefon IN NAVIGATORI.Telefon_Navigator%TYPE
+) AS
+BEGIN
+    UPDATE NAVIGATORI
+    SET Telefon_Navigator = p_telefon
+    WHERE Id_Navigator = p_id;
+
+    DBMS_OUTPUT.PUT_LINE('Numarul de telefon al navigatorului a fost actualizat cu succes.');
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Navigatorul cu ID-ul ' || p_id || ' nu există în baza de date.');
+END actualizeaza_telefon_navigator;
+/
+
+begin
+actualizeaza_telefon_navigator(2, '0769696969');
+end;
+ 
+CREATE OR REPLACE PROCEDURE sterge_navigator(
+    p_id IN NAVIGATORI.Id_Navigator%TYPE
+) AS
+BEGIN
+    DELETE FROM NAVIGATORI WHERE Id_Navigator = p_id;
+    IF SQL%ROWCOUNT = 0 THEN
+        DBMS_OUTPUT.PUT_LINE('Navigatorul cu ID-ul ' || p_id || ' nu exista în baza de date.');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Navigatorul a fost șters cu succes.');
+    END IF;
+END sterge_navigator;
+/
+
+
+begin 
+sterge_navigator(100);
+end; 
+
+CREATE OR REPLACE FUNCTION calcul_varsta_navigator(
+    p_id IN NAVIGATORI.Id_Navigator%TYPE
+) RETURN NUMBER IS
+    v_varsta NUMBER;
+BEGIN
+    SELECT ROUND(MONTHS_BETWEEN(SYSDATE, Data_Nasterii) / 12) INTO v_varsta
+    FROM NAVIGATORI
+    WHERE Id_Navigator = p_id;
+
+    RETURN v_varsta;
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RETURN NULL;
+END calcul_varsta_navigator;
+/
+
+declare 
+v_varsta NUMBER;
+BEGIN
+    v_varsta := calcul_varsta_navigator(1);
+     DBMS_OUTPUT.PUT_LINE('Varsta navigatorului cu ID-ul 1 este: ' || v_varsta);
+end; 
+
+CREATE OR REPLACE FUNCTION medie_salariu_max_stare_civila(
+    p_stare_civila IN NAVIGATORI.Stare_Civila%TYPE
+) RETURN NUMBER IS
+    v_medie_salariu_max NUMBER;
+BEGIN
+    SELECT AVG(Salariu_Max)
+    INTO v_medie_salariu_max
+    FROM FUNCTIE_NAVIGATOR FN
+    JOIN NAVIGATORI N ON FN.Id_Navigator = N.Id_Navigator
+    WHERE N.Stare_Civila = p_stare_civila
+    AND N.Id_Navigator IS NOT NULL;
+
+    RETURN v_medie_salariu_max;
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RETURN NULL;
+END medie_salariu_max_stare_civila;
+/
+
+
+
+DECLARE
+    v_medie_salariu_max NUMBER;
+BEGIN
+    v_medie_salariu_max := medie_salariu_max_stare_civila('Casatorit');
+    IF v_medie_salariu_max IS NOT NULL THEN
+        DBMS_OUTPUT.PUT_LINE('Media salariului maxim pentru navigatorii căsătoriți este: ' || v_medie_salariu_max);
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Nu există navigatori cu starea civilă specificată sau ID-ul navigatorului este NULL.');
+    END IF;
+END;
+/
+ 
+
+CREATE OR REPLACE FUNCTION salariu_minim_navigator(
+    p_id IN NAVIGATORI.Id_Navigator%TYPE
+) RETURN NUMBER IS
+    v_salariu_minim FUNCTIE_NAVIGATOR.Salariu_Min%TYPE;
+BEGIN
+    SELECT Salariu_Min INTO v_salariu_minim
+    FROM FUNCTIE_NAVIGATOR
+    WHERE Id_Navigator = p_id;
+
+    RETURN v_salariu_minim;
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RETURN NULL;
+END salariu_minim_navigator;
+/
+
+declare 
+v_salariu_minim NUMBER;
+begin
+v_salariu_minim := salariu_minim_navigator(3);
+DBMS_OUTPUT.PUT_LINE('Salariul minim al navigatorului cu ID-ul 3 este: ' || v_salariu_minim);
+end; 
+
+
+
+CREATE OR REPLACE TRIGGER trg_check_birthdate
+BEFORE INSERT ON NAVIGATORI
+FOR EACH ROW
+BEGIN
+    IF :NEW.Data_Nasterii > SYSDATE THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Data nasterii trebuie sa fie în trecut.');
+    END IF;
+END;
+/
+
+INSERT INTO NAVIGATORI (Id_Navigator, Nume, Prenume, Data_Nasterii, Salariu_Min, Salariu_Max, Stare_Civila)
+VALUES (101, 'Popescu', 'Ion', TO_DATE('2040-05-20', 'YYYY-MM-DD'), 2000, 4000, 'Căsătorit');
+ 
+
+CREATE OR REPLACE TRIGGER update_data_expirare_vaccin
+BEFORE INSERT OR UPDATE ON CERTIFICATE_VACCIN
+FOR EACH ROW
+BEGIN
+    IF :NEW.Data_Vaccinare IS NOT NULL THEN
+        :NEW.Data_Expirare := :NEW.Data_Vaccinare + INTERVAL '1' YEAR;
+        DBMS_OUTPUT.PUT_LINE('Data de expirare a certificatului de vaccin a fost actualizata cu succes.');
+    END IF;
+END;
+/
+
+
+INSERT INTO CERTIFICATE_VACCIN(Id_Cetificat, Denumire_Certificat, Data_Vaccinare, Locatie, Nr_Vaccin)
+VALUES(6, 'COVID', TO_DATE('2024-05-16', 'YYYY-MM-DD'), 'CONSTANTA', 4);
+ 
+CREATE OR REPLACE TRIGGER update_contact_navigator
+BEFORE UPDATE ON NAVIGATORI
+FOR EACH ROW
+BEGIN
+    IF :OLD.Telefon_Navigator != :NEW.Telefon_Navigator OR :OLD.Email_Navigator != :NEW.Email_Navigator THEN
+        UPDATE NAVIGATORI
+        SET Telefon_Navigator = :NEW.Telefon_Navigator, Email_Navigator = :NEW.Email_Navigator
+        WHERE Id_Navigator = :NEW.Id_Navigator;
+        
+        DBMS_OUTPUT.PUT_LINE('Detaliile de contact ale navigatorului au fost actualizate cu succes.');
+    END IF;
+END;
+/
+
+
+SET SERVEROUTPUT ON;
+
+-- Actualizează detaliile personale ale navigatorului
+UPDATE NAVIGATORI
+SET Telefon_Navigator = '0722222222', Email_Navigator = 'noul.email@example.com'
+WHERE Id_Navigator = 1;
+ 
+
+
+CREATE OR REPLACE PACKAGE pachet_proceduri AS
+    -- Procedură pentru actualizarea salariului unui navigator în funcție de ID-ul său
+    PROCEDURE actualizare_salariu_navigator(p_navigator_id IN INT);
+    
+    -- Alte proceduri pot fi adăugate aici
+END pachet_proceduri;
+/
+
+CREATE OR REPLACE PACKAGE BODY pachet_proceduri AS
+    -- Implementarea procedurii pentru actualizarea salariului unui navigator
+    PROCEDURE actualizare_salariu_navigator(p_navigator_id IN INT) IS
+        v_salariu_min FUNCTIE_NAVIGATOR.Salariu_Min%TYPE;
+        v_salariu_max FUNCTIE_NAVIGATOR.Salariu_Max%TYPE;
+    BEGIN
+        -- Obținem salariul minim și maxim pentru navigatorul specificat
+        SELECT Salariu_Min, Salariu_Max
+        INTO v_salariu_min, v_salariu_max
+        FROM FUNCTIE_NAVIGATOR
+        WHERE Id_Navigator = p_navigator_id;
+        
+        -- Actualizăm salariul cu o creștere de 10%
+        v_salariu_min := v_salariu_min * 1.10;
+        v_salariu_max := v_salariu_max * 1.10;
+        
+        -- Actualizăm salariul în baza de date
+        UPDATE FUNCTIE_NAVIGATOR
+        SET Salariu_Min = v_salariu_min, Salariu_Max = v_salariu_max
+        WHERE Id_Navigator = p_navigator_id;
+        
+        DBMS_OUTPUT.PUT_LINE('Salariul navigatorului cu ID-ul ' || p_navigator_id || ' a fost actualizat cu succes.');
+    END actualizare_salariu_navigator;
+    
+   
+END pachet_proceduri;
+/
+
+BEGIN
+    pachet_proceduri.actualizare_salariu_navigator(1);
+END;
+ 
+
+CREATE OR REPLACE PACKAGE pachet_functii AS
+    -- Funcție pentru calcularea vârstei unui navigator în funcție de ID-ul său
+    FUNCTION calcul_varsta_navigator(p_navigator_id IN INT) RETURN INT;
+    
+    -- Alte funcții pot fi adăugate aici
+END pachet_functii;
+/
+
+CREATE OR REPLACE PACKAGE BODY pachet_functii AS
+    -- Implementarea funcției pentru calcularea vârstei unui navigator
+    FUNCTION calcul_varsta_navigator(p_navigator_id IN INT) RETURN INT IS
+        v_varsta INT;
+    BEGIN
+        -- Obținem data nașterii navigatorului
+        SELECT EXTRACT(YEAR FROM SYSDATE) - EXTRACT(YEAR FROM Data_Nasterii)
+        INTO v_varsta
+        FROM NAVIGATORI
+        WHERE Id_Navigator = p_navigator_id;
+        
+        RETURN v_varsta;
+    END calcul_varsta_navigator;
+    
+    
+END pachet_functii;
+/
+
+
+DECLARE
+    v_varsta INT;
+BEGIN
+    v_varsta := pachet_functii.calcul_varsta_navigator(2);
+    DBMS_OUTPUT.PUT_LINE('Vârsta navigatorului este: ' || v_varsta);
+END;
+/ 
+
+
+DECLARE
+    CURSOR cur_navigatori_functii IS
+        SELECT n.Prenume_Navigator, n.Nume_Navigator, f.Denumire_Functie
+        FROM NAVIGATORI n
+        LEFT JOIN ISTORIC_FUNCTII_NAVIGATORI ifn ON n.Id_Navigator = ifn.Id_Navigator
+        LEFT JOIN FUNCTIE_NAVIGATOR f ON ifn.Id_Functie = f.Id_Functie;
+    rec_navigatori_functii cur_navigatori_functii%ROWTYPE;
+BEGIN
+    OPEN cur_navigatori_functii;
+    LOOP
+        FETCH cur_navigatori_functii INTO rec_navigatori_functii;
+        EXIT WHEN cur_navigatori_functii%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('Navigator: ' || rec_navigatori_functii.Prenume_Navigator || ' ' || rec_navigatori_functii.Nume_Navigator ||
+                             ', Functie: ' || NVL(rec_navigatori_functii.Denumire_Functie, 'N/A'));
+    END LOOP;
+    CLOSE cur_navigatori_functii;
+END;
+/
+
+ 
+
